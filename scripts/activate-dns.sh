@@ -1,6 +1,10 @@
 #!/bin/bash
 
-dns_host=$(echo $DOCKER_HOST | awk -F'[/:]' '{print $4}')
+if [ -z $DOCKER_HOST ]; then
+  dns_host=127.0.0.1
+else
+  dns_host=$(echo $DOCKER_HOST | awk -F'[/:]' '{print $4}')
+fi
 
 kubectl --namespace=kube-system create -f - << EOF
 apiVersion: v1
